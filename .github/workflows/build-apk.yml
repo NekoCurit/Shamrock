@@ -21,6 +21,11 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
+      - name: fix
+        run:
+          mkdirs /home/runner/.config/.android
+          chmod 777 /home/runner/.config/.android
+
       - name: Setup cmake
         run: |
           echo "y" | sudo ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --install "cmake;3.22.1" --sdk_root=${ANDROID_SDK_ROOT}
@@ -31,7 +36,6 @@ jobs:
 
       - name: Build Debug APK
         run: |
-          export ANDROID_DEBUG_KEYSTORE=$GITHUB_WORKSPACE/.android/debug.keystore
           chmod +x ./gradlew
           ./gradlew :app:assembleAppDebug --build-cache --parallel --warning-mode all
           echo "APK_FILE=$(find app/build/outputs/apk/app/debug -name '*.apk')" >> $GITHUB_ENV
@@ -48,6 +52,7 @@ jobs:
         with:
           name: Shamrock-debug-${{ github.event.head_commit.id }}-arm64
           path: ${{ env.APK_FILE }}
+
 
 
 
