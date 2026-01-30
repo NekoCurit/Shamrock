@@ -23,7 +23,7 @@ jobs:
 
       - name: fix
         run:
-          mkdirs /home/runner/.config/.android
+          mkdir -p /home/runner/.config/.android
           chmod 777 /home/runner/.config/.android
 
       - name: Setup cmake
@@ -52,6 +52,7 @@ jobs:
         with:
           name: Shamrock-debug-${{ github.event.head_commit.id }}-arm64
           path: ${{ env.APK_FILE }}
+
 
 
 
