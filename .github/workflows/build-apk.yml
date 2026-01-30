@@ -31,8 +31,9 @@ jobs:
 
       - name: Build Debug APK
         run: |
+          export ANDROID_DEBUG_KEYSTORE=$GITHUB_WORKSPACE/.android/debug.keystore
           chmod +x ./gradlew
-          ./gradlew :app:assembleAppDebug --build-cache --parallel --daemon --warning-mode all
+          ./gradlew :app:assembleAppDebug --build-cache --parallel --warning-mode all
           echo "APK_FILE=$(find app/build/outputs/apk/app/debug -name '*.apk')" >> $GITHUB_ENV
 
       - name: Show Debug APK SHA256
@@ -47,5 +48,6 @@ jobs:
         with:
           name: Shamrock-debug-${{ github.event.head_commit.id }}-arm64
           path: ${{ env.APK_FILE }}
+
 
 
